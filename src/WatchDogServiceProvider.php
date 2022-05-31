@@ -21,9 +21,11 @@ class WatchDogServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publish();
 
-            $this->commands([
-                FlushWatchDogCacheCommand::class,
-            ]);
+            if (! in_array(config('cache.default'), ['file', 'database', 'dynamodb'])) {
+                $this->commands([
+                    FlushWatchDogCacheCommand::class,
+                ]);
+            }
         }
 
         $this->app['router']->aliasMiddleware('role', WatchDogRoleMiddleware::class);

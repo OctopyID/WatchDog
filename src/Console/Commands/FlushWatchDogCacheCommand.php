@@ -3,7 +3,7 @@
 namespace Octopy\WatchDog\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
+use Octopy\WatchDog\WatchDogCache;
 
 class FlushWatchDogCacheCommand extends Command
 {
@@ -22,7 +22,7 @@ class FlushWatchDogCacheCommand extends Command
      */
     public function handle() : void
     {
-        if (Cache::tags('watchdog')->flush()) {
+        if (WatchDogCache::instance()->flush()) {
             $this->info('WatchDog cache flushed.');
         }
     }

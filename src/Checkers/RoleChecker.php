@@ -4,8 +4,8 @@ namespace Octopy\WatchDog\Checkers;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use Octopy\WatchDog\Models\Role;
+use Octopy\WatchDog\WatchDogCache;
 
 class RoleChecker
 {
@@ -32,7 +32,7 @@ class RoleChecker
         }
 
         if (config('watchdog.cache.enabled')) {
-            return Cache::tags('watchdog')
+            return WatchDogCache::instance()
                 ->remember(md5(serialize($roles)), config('watchdog.cache.expiration'), function () use ($roles) {
                     return $this->checkEntityHasRole($roles);
                 });

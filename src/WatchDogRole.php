@@ -4,7 +4,6 @@ namespace Octopy\WatchDog;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use Octopy\WatchDog\Checkers\RoleChecker;
 use Octopy\WatchDog\Models\Role;
 
@@ -46,7 +45,7 @@ class WatchDogRole
             $this->model->roles()->attach($role);
         }
 
-        Cache::tags('watchdog')->flush();
+        WatchDogCache::instance()->flush();
 
         return $this->model;
     }
@@ -65,7 +64,7 @@ class WatchDogRole
             $this->model->roles()->detach($role);
         }
 
-        Cache::tags('watchdog')->flush();
+        WatchDogCache::instance()->flush();
 
         return $this->model;
     }
