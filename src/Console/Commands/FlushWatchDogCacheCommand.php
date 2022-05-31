@@ -22,7 +22,7 @@ class FlushWatchDogCacheCommand extends Command
      */
     public function handle() : void
     {
-        if (WatchDogCache::instance()->flush()) {
+        if (WatchDogCache::purge()) {
             $this->info('WatchDog cache flushed.');
         }
     }

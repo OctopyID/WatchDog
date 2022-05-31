@@ -37,7 +37,7 @@ class WatchDogAbility
             $this->model->abilities()->attach($role);
         }
 
-        WatchDogCache::instance()->flush();
+        WatchDogCache::purge();
 
         return $this->model;
     }
@@ -56,7 +56,7 @@ class WatchDogAbility
             $this->model->abilities()->detach($role);
         }
 
-        WatchDogCache::instance()->flush();
+        WatchDogCache::purge();
 
         return $this->model;
     }

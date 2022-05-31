@@ -4,7 +4,7 @@ namespace Octopy\WatchDog\Checkers;
 
 use Illuminate\Database\Eloquent\Model;
 use Octopy\WatchDog\Concerns\HasRole;
-use Octopy\WatchDog\WatchDogCache;
+use Octopy\WatchDog\WatchDogCache as Cache;
 use ReflectionClass;
 
 class AbilityChecker
@@ -25,10 +25,9 @@ class AbilityChecker
     public function able(string $ability, Model|string $entity = null) : bool
     {
         if (config('watchdog.cache.enabled')) {
-            return WatchDogCache::instance()
-                ->remember(md5($ability . serialize($entity)), config('watchdog.cache.expiration'), function () use ($entity, $ability) {
-                    return $this->checkEntityAbility($ability, $entity);
-                });
+            return Cache::remember(md5($ability . serialize($entity)), config('watchdog.cache.expiration'), function () use ($entity, $ability) {
+                return $this->checkEntityAbility($ability, $entity);
+            });
         }
 
         return $this->checkEntityAbility($ability, $entity);
