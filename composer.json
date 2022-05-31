@@ -1,0 +1,47 @@
+{
+    "name": "octopyid/watchdog",
+    "description": "Manage access to records or models",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Supian M",
+            "email": "supianidz@octopy.id"
+        }
+    ],
+    "require": {
+        "php": "^8.0|^8.1"
+    },
+    "require-dev": {
+        "nunomaduro/collision": "^6.2",
+        "octopyid/phpunit-extra": "^1.0",
+        "orchestra/testbench": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Octopy\\WatchDog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Octopy\\WatchDog\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/testbench package:test"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Octopy\\WatchDog\\WatchDogServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
