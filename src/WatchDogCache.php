@@ -26,9 +26,9 @@ class WatchDogCache
     public static function remember(string $key, callable $callback) : mixed
     {
         if (in_array(config('cache.default'), ['file', 'database', 'dynamodb'])) {
-            return Cache::remember('watchdog' . $key, config('watchdog.cache.expiration'), $callback);
+            return Cache::remember('watchdog.' . $key, config('watchdog.cache.expiration'), $callback);
         }
 
-        return Cache::tags('watchdog')->remember('watchdog' . $key, config('watchdog.cache.expiration'), $callback);
+        return Cache::tags('watchdog')->remember('watchdog.' . $key, config('watchdog.cache.expiration'), $callback);
     }
 }
