@@ -5,6 +5,7 @@ namespace Octopy\WatchDog;
 use Illuminate\Support\ServiceProvider;
 use Octopy\WatchDog\Console\Commands\FlushWatchDogCacheCommand;
 use Octopy\WatchDog\Http\Middleware\WatchDogAbilityMiddleware;
+use Octopy\WatchDog\Http\Middleware\WatchDogRoleExceptionMiddleware;
 use Octopy\WatchDog\Http\Middleware\WatchDogRoleMiddleware;
 
 class WatchDogServiceProvider extends ServiceProvider
@@ -29,6 +30,8 @@ class WatchDogServiceProvider extends ServiceProvider
         }
 
         $this->app['router']->aliasMiddleware('role', WatchDogRoleMiddleware::class);
+        $this->app['router']->aliasMiddleware('role.except', WatchDogRoleExceptionMiddleware::class);
+
         $this->app['router']->aliasMiddleware('ability', WatchDogAbilityMiddleware::class);
     }
 
