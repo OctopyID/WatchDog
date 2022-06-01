@@ -27,7 +27,7 @@ class WatchDogRoleTest extends TestCase
             'name' => 'bar',
         ]);
 
-        $role->ability->assign($ability);
+        $role->ability->assign('bar');
 
         $this->assertDatabaseHas(Permission::class, [
             'entity_id'   => $role->id,
@@ -87,7 +87,7 @@ class WatchDogRoleTest extends TestCase
             'entity_type' => Ability::class,
         ]);
 
-        $foo->ability->assign($ability);
+        $foo->ability->assign(1);
 
         $this->assertDatabaseHas(Permission::class, [
             'entity_id'   => $foo->id,
@@ -217,9 +217,9 @@ class WatchDogRoleTest extends TestCase
         ]);
 
         // Arrayable
-        $user->role->assign([
+        $user->role->assign(collect([
             $foo, $bar,
-        ]);
+        ]));
 
         $this->assertDatabaseHas(AssignedRole::class, [
             'role_id'   => $foo->id,

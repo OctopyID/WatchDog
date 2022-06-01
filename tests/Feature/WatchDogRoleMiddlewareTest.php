@@ -60,6 +60,28 @@ class WatchDogRoleMiddlewareTest extends TestCase
     /**
      * @return void
      */
+    public function testEntityWithValidRoleInExceptionCanNotAccessRoute() : void
+    {
+        $user = User::create([
+            'name' => 'Supian M',
+        ]);
+
+        $role = Role::create([
+            'name' => 'admin',
+        ]);
+
+        $user->role->assign($role);
+
+        Route::middleware('role.except:admin')->get('/', function () {
+            return 'Hello World';
+        });
+
+        $this->actingAs($user)->get('/')->assertStatus(403);
+    }
+
+    /**
+     * @return void
+     */
     public function testEntityWithInvalidRoleCannotAccessRoute() : void
     {
         $user = User::create([

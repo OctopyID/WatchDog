@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Octopy\WatchDog\Checkers\AbilityChecker;
 use Octopy\WatchDog\Models\Ability;
-use Octopy\WatchDog\Models\Role;
 use Octopy\WatchDog\WatchDogCache as Cache;
 
 class WatchDogAbility
@@ -35,12 +34,12 @@ class WatchDogAbility
     }
 
     /**
-     * @param  Arrayable|Role|array|string $abilities
+     * @param  Arrayable|Ability|array|string|int $abilities
      * @return mixed
      * @noinspection PhpUndefinedMethodInspection
      * @noinspection PhpMixedReturnTypeCanBeReducedInspection
      */
-    public function assign(Arrayable|Role|array|string $abilities) : mixed
+    public function assign(Arrayable|Ability|array|string|int $abilities) : mixed
     {
         $abilities = $this->parse($abilities);
 
@@ -52,12 +51,12 @@ class WatchDogAbility
     }
 
     /**
-     * @param  Arrayable|Role|array|string $abilities
+     * @param  Arrayable|Ability|array|string|int $abilities
      * @return mixed
      * @noinspection PhpUndefinedMethodInspection
      * @noinspection PhpMixedReturnTypeCanBeReducedInspection
      */
-    public function retract(Arrayable|Role|array|string $abilities) : mixed
+    public function retract(Arrayable|Ability|array|string|int $abilities) : mixed
     {
         $abilities = $this->parse($abilities);
 
@@ -69,13 +68,13 @@ class WatchDogAbility
     }
 
     /**
-     * @param  Arrayable|Ability|array|string $abilities
+     * @param  Arrayable|Ability|array|string|int $abilities
      * @return array
      * @noinspection PhpUndefinedMethodInspection
      */
-    protected function parse(Arrayable|Ability|array|string $abilities) : array
+    protected function parse(Arrayable|Ability|array|string|int $abilities) : array
     {
-        if ($abilities instanceof Ability) {
+        if ($abilities instanceof Ability || is_int($abilities)) {
             $abilities = [$abilities];
         } else if (is_string($abilities)) {
             $abilities = explode('|', $abilities);

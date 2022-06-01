@@ -26,7 +26,11 @@ class WatchDogEntityTest extends TestCase
             'name' => 'foo',
         ]);
 
-        $user->role->assign($role);
+        config([
+            'watchdog.cache.enabled' => true,
+        ]);
+
+        $user->role->assign(1);
 
         $this->assertTrue($user->role->has($role));
         $this->assertTrue($user->role->has('foo'));
@@ -52,7 +56,7 @@ class WatchDogEntityTest extends TestCase
             'name' => 'bar',
         ]);
 
-        $user->ability->assign($ability);
+        $user->ability->assign(1);
 
         $this->assertDatabaseHas(Permission::class, [
             'entity_id'   => $user->id,
@@ -81,7 +85,7 @@ class WatchDogEntityTest extends TestCase
             'entity_type' => Ability::class,
         ]);
 
-        $foo->ability->assign($ability);
+        $foo->ability->assign(collect(['edit']));
 
         $this->assertDatabaseHas(Permission::class, [
             'entity_id'   => $foo->id,
@@ -207,5 +211,37 @@ class WatchDogEntityTest extends TestCase
         $this->assertFalse($bar->ability->able('edit', $foo));
         $this->assertFalse($bar->ability->able('edit', $bar));
         $this->assertFalse($bar->ability->able('edit', User::class));
+    }
+
+    /**
+     * @return void
+     */
+    public function testEntityCanRetractTheirAbilities() : void
+    {
+        $user = User::create([
+            'name' => 'foo',
+        ]);
+
+        $ability = Ability::create([
+            'name' => 'bar',
+        ]);
+
+        $user->ability->assign(1);
+
+        $this->assertDatabaseHas(Permission::class, [
+            'entity_id'   => $user->id,
+            'ability_id'  => $ability->id,
+            'entity_type' => User::class,
+        ]);
+
+        $this->assertTrue($user->ability->able('bar'));
+
+        $user->ability->retract(1);
+
+        $this->assertDatabaseMissing(Permission::class, [
+            'entity_id'   => $user->id,
+            'ability_id'  => $ability->id,
+            'entity_type' => User::class,
+        ]);
     }
 }

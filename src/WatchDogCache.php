@@ -12,7 +12,9 @@ class WatchDogCache
     public static function purge() : bool
     {
         if (in_array(config('cache.default'), ['file', 'database', 'dynamodb'])) {
+            // @codeCoverageIgnoreStart
             return Cache::flush();
+            // @codeCoverageIgnoreEnd
         }
 
         return Cache::tags('watchdog')->flush();
@@ -26,7 +28,9 @@ class WatchDogCache
     public static function remember(string $key, callable $callback) : mixed
     {
         if (in_array(config('cache.default'), ['file', 'database', 'dynamodb'])) {
+            // @codeCoverageIgnoreStart
             return Cache::remember('watchdog.' . $key, config('watchdog.cache.expiration'), $callback);
+            // @codeCoverageIgnoreEnd
         }
 
         return Cache::tags('watchdog')->remember('watchdog.' . $key, config('watchdog.cache.expiration'), $callback);

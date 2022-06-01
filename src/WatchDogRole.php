@@ -33,12 +33,12 @@ class WatchDogRole
     }
 
     /**
-     * @param  Arrayable|Role|array|string $roles
+     * @param  Arrayable|Role|array|string|int $roles
      * @return mixed
      * @noinspection PhpUndefinedMethodInspection
      * @noinspection PhpMixedReturnTypeCanBeReducedInspection
      */
-    public function assign(Arrayable|Role|array|string $roles) : mixed
+    public function assign(Arrayable|Role|array|string|int $roles) : mixed
     {
         $roles = $this->parse($roles);
 
@@ -50,12 +50,12 @@ class WatchDogRole
     }
 
     /**
-     * @param  Arrayable|Role|array|string $roles
+     * @param  Arrayable|Role|array|string|int $roles
      * @return mixed
      * @noinspection PhpUndefinedMethodInspection
      * @noinspection PhpMixedReturnTypeCanBeReducedInspection
      */
-    public function retract(Arrayable|Role|array|string $roles) : mixed
+    public function retract(Arrayable|Role|array|string|int $roles) : mixed
     {
         $roles = $this->parse($roles);
 
@@ -67,12 +67,12 @@ class WatchDogRole
     }
 
     /**
-     * @param  Arrayable|Role|array|string $roles
+     * @param  Arrayable|Role|array|string|int $roles
      * @return array
      */
-    protected function parse(Arrayable|Role|array|string $roles) : array
+    protected function parse(Arrayable|Role|array|string|int $roles) : array
     {
-        if ($roles instanceof Role) {
+        if ($roles instanceof Role || is_int($roles)) {
             $roles = [$roles];
         } else if (is_string($roles)) {
             $roles = explode('|', $roles);
