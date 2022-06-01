@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Octopy\WatchDog\Checkers\RoleChecker;
 use Octopy\WatchDog\Models\Role;
+use Octopy\WatchDog\WatchDogCache as Cache;
 
 class WatchDogRole
 {
@@ -45,8 +46,6 @@ class WatchDogRole
             $this->model->roles()->attach($role);
         }
 
-        WatchDogCache::purge();
-
         return $this->model;
     }
 
@@ -64,15 +63,12 @@ class WatchDogRole
             $this->model->roles()->detach($role);
         }
 
-        WatchDogCache::purge();
-
         return $this->model;
     }
 
     /**
      * @param  Arrayable|Role|array|string $roles
      * @return array
-     * @noinspection PhpUndefinedMethodInspection
      */
     protected function parse(Arrayable|Role|array|string $roles) : array
     {
@@ -84,6 +80,22 @@ class WatchDogRole
             $roles = $roles->toArray();
         }
 
+        if (config('watchdog.cache.enabled')) {
+            return Cache::remember('roles.' . md5(serialize($roles)), function () use ($roles) {
+                return $this->findRoles($roles);
+            });
+        }
+
+        return $this->findRoles($roles);
+    }
+
+    /**
+     * @param  array $roles
+     * @return array
+     * @noinspection PhpUndefinedMethodInspection
+     */
+    protected function findRoles(array $roles) : array
+    {
         foreach ($roles as $index => $role) {
             if (is_int($role)) {
                 $roles[$index] = Role::findOrFail($role);

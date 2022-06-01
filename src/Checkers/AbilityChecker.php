@@ -25,7 +25,7 @@ class AbilityChecker
     public function able(string $ability, Model|string $entity = null) : bool
     {
         if (config('watchdog.cache.enabled')) {
-            return Cache::remember(md5($ability . serialize($entity)), config('watchdog.cache.expiration'), function () use ($entity, $ability) {
+            return Cache::remember(md5($ability . serialize($entity)), function () use ($entity, $ability) {
                 return $this->checkEntityAbility($ability, $entity);
             });
         }

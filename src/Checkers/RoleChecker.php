@@ -32,7 +32,7 @@ class RoleChecker
         }
 
         if (config('watchdog.cache.enabled')) {
-            return Cache::remember(md5(serialize($roles)), config('watchdog.cache.expiration'), function () use ($roles) {
+            return Cache::remember(md5(serialize($roles)), function () use ($roles) {
                 return $this->checkEntityHasRole($roles);
             });
         }
