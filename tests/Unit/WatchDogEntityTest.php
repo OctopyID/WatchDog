@@ -64,7 +64,7 @@ class WatchDogEntityTest extends TestCase
             'entity_type' => User::class,
         ]);
 
-        $this->assertTrue($user->ability->able('bar'));
+        $this->assertTrue($user->ability->can('bar'));
     }
 
     /**
@@ -93,8 +93,8 @@ class WatchDogEntityTest extends TestCase
             'entity_type' => User::class,
         ]);
 
-        $this->assertTrue($foo->ability->able('edit', Ability::class));
-        $this->assertFalse($bar->ability->able('edit', Ability::class));
+        $this->assertTrue($foo->ability->can('edit', Ability::class));
+        $this->assertFalse($bar->ability->can('edit', Ability::class));
     }
 
     /**
@@ -122,13 +122,13 @@ class WatchDogEntityTest extends TestCase
 
         $foo->ability->assign($ability);
 
-        $this->assertTrue($foo->ability->able('edit', $bar));
-        $this->assertFalse($foo->ability->able('edit', $foo));
-        $this->assertFalse($foo->ability->able('edit', User::class));
+        $this->assertTrue($foo->ability->can('edit', $bar));
+        $this->assertFalse($foo->ability->can('edit', $foo));
+        $this->assertFalse($foo->ability->can('edit', User::class));
 
-        $this->assertFalse($bar->ability->able('edit', $foo));
-        $this->assertFalse($bar->ability->able('edit', $bar));
-        $this->assertFalse($bar->ability->able('edit', User::class));
+        $this->assertFalse($bar->ability->can('edit', $foo));
+        $this->assertFalse($bar->ability->can('edit', $bar));
+        $this->assertFalse($bar->ability->can('edit', User::class));
     }
 
     /**
@@ -151,7 +151,7 @@ class WatchDogEntityTest extends TestCase
         $user->role->assign($role);
         $role->ability->assign($ability);
 
-        $this->assertTrue($user->ability->able('edit'));
+        $this->assertTrue($user->ability->can('edit'));
     }
 
     /**
@@ -175,7 +175,7 @@ class WatchDogEntityTest extends TestCase
         $user->role->assign($role);
         $role->ability->assign($ability);
 
-        $this->assertTrue($user->ability->able('edit', Ability::class));
+        $this->assertTrue($user->ability->can('edit', Ability::class));
     }
 
     /**
@@ -204,13 +204,13 @@ class WatchDogEntityTest extends TestCase
         $foo->role->assign($role);
         $role->ability->assign($ability);
 
-        $this->assertTrue($foo->ability->able('edit', $bar));
-        $this->assertFalse($foo->ability->able('edit', $foo));
-        $this->assertFalse($foo->ability->able('edit', User::class));
+        $this->assertTrue($foo->ability->can('edit', $bar));
+        $this->assertFalse($foo->ability->can('edit', $foo));
+        $this->assertFalse($foo->ability->can('edit', User::class));
 
-        $this->assertFalse($bar->ability->able('edit', $foo));
-        $this->assertFalse($bar->ability->able('edit', $bar));
-        $this->assertFalse($bar->ability->able('edit', User::class));
+        $this->assertFalse($bar->ability->can('edit', $foo));
+        $this->assertFalse($bar->ability->can('edit', $bar));
+        $this->assertFalse($bar->ability->can('edit', User::class));
     }
 
     /**
@@ -234,7 +234,7 @@ class WatchDogEntityTest extends TestCase
             'entity_type' => User::class,
         ]);
 
-        $this->assertTrue($user->ability->able('bar'));
+        $this->assertTrue($user->ability->can('bar'));
 
         $user->ability->retract(1);
 

@@ -35,7 +35,7 @@ class WatchDogRoleTest extends TestCase
             'entity_type' => Role::class,
         ]);
 
-        $this->assertTrue($role->ability->able('bar'));
+        $this->assertTrue($role->ability->can('bar'));
     }
 
     /**
@@ -64,8 +64,8 @@ class WatchDogRoleTest extends TestCase
             'entity_type' => Role::class,
         ]);
 
-        $this->assertTrue($foo->ability->able('edit', Ability::class));
-        $this->assertFalse($bar->ability->able('edit', Ability::class));
+        $this->assertTrue($foo->ability->can('edit', Ability::class));
+        $this->assertFalse($bar->ability->can('edit', Ability::class));
     }
 
     /**
@@ -95,8 +95,8 @@ class WatchDogRoleTest extends TestCase
             'entity_type' => Role::class,
         ]);
 
-        $this->assertTrue($foo->ability->able('edit', $ability));
-        $this->assertFalse($bar->ability->able('edit', $ability));
+        $this->assertTrue($foo->ability->can('edit', $ability));
+        $this->assertFalse($bar->ability->can('edit', $ability));
     }
 
     /**

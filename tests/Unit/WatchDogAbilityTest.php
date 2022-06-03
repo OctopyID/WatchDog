@@ -34,8 +34,8 @@ class WatchDogAbilityTest extends TestCase
 
         $user->role->assign($role);
 
-        $this->assertTrue($user->ability->able('delete', $victim));
-        $this->assertTrue($user->ability->able('delete', User::class));
+        $this->assertTrue($user->ability->can('delete', $victim));
+        $this->assertTrue($user->ability->can('delete', User::class));
     }
 
     /**
@@ -67,8 +67,8 @@ class WatchDogAbilityTest extends TestCase
 
         $user->role->assign($role);
 
-        $this->assertTrue($user->ability->able('delete', $foo));
-        $this->assertFalse($user->ability->able('delete', $bar));
+        $this->assertTrue($user->ability->can('delete', $foo));
+        $this->assertFalse($user->ability->can('delete', $bar));
     }
 
     /**
@@ -96,8 +96,8 @@ class WatchDogAbilityTest extends TestCase
 
         $user->role->assign($role);
 
-        $this->assertFalse($user->ability->able('delete'));
-        $this->assertFalse($user->ability->able('delete', $foo));
-        $this->assertFalse($user->ability->able('delete', User::class));
+        $this->assertFalse($user->ability->can('delete'));
+        $this->assertFalse($user->ability->can('delete', $foo));
+        $this->assertFalse($user->ability->can('delete', User::class));
     }
 }

@@ -28,6 +28,16 @@ class WatchDogAbility
      * @param  Model|string|null $entity
      * @return bool
      */
+    public function can(string $ability, Model|string $entity = null) : bool
+    {
+        return $this->able($ability, $entity);
+    }
+
+    /**
+     * @param  string            $ability
+     * @param  Model|string|null $entity
+     * @return bool
+     */
     public function able(string $ability, Model|string $entity = null) : bool
     {
         return $this->checker->able($ability, $entity);

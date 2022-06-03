@@ -60,12 +60,12 @@ class WatchDogCacheTest extends TestCase
         ]);
 
         $this->assertQueryCountMatches(2, function () use ($user) {
-            $this->assertTrue($user->ability->able('bar'));
+            $this->assertTrue($user->ability->can('bar'));
         });
 
         // Assert that the cache is hit.
         $this->assertQueryCountMatches(0, function () use ($user) {
-            $this->assertTrue($user->ability->able('bar'));
+            $this->assertTrue($user->ability->can('bar'));
         });
     }
 
@@ -89,12 +89,12 @@ class WatchDogCacheTest extends TestCase
         ]);
 
         $this->assertQueryCountMatches(2, function () use ($role) {
-            $this->assertTrue($role->ability->able('bar'));
+            $this->assertTrue($role->ability->can('bar'));
         });
 
         // Assert that the cache is hit.
         $this->assertQueryCountMatches(0, function () use ($role) {
-            $this->assertTrue($role->ability->able('bar'));
+            $this->assertTrue($role->ability->can('bar'));
         });
     }
 
@@ -118,18 +118,18 @@ class WatchDogCacheTest extends TestCase
         ]);
 
         $this->assertQueryCountMatches(2, function () use ($role) {
-            $this->assertTrue($role->ability->able('bar'));
+            $this->assertTrue($role->ability->can('bar'));
         });
 
         // Assert that the cache is hit.
         $this->assertQueryCountMatches(0, function () use ($role) {
-            $this->assertTrue($role->ability->able('bar'));
+            $this->assertTrue($role->ability->can('bar'));
         });
 
         $this->artisan('watchdog:flush');
 
         $this->assertQueryCountMatches(2, function () use ($role) {
-            $this->assertTrue($role->ability->able('bar'));
+            $this->assertTrue($role->ability->can('bar'));
         });
     }
 }
