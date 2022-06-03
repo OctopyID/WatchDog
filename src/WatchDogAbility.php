@@ -35,16 +35,19 @@ class WatchDogAbility
 
     /**
      * @param  Arrayable|Ability|array|string|int $abilities
+     * @param  bool                               $forbidden
      * @return mixed
      * @noinspection PhpUndefinedMethodInspection
      * @noinspection PhpMixedReturnTypeCanBeReducedInspection
      */
-    public function assign(Arrayable|Ability|array|string|int $abilities) : mixed
+    public function assign(Arrayable|Ability|array|string|int $abilities, bool $forbidden = false) : mixed
     {
         $abilities = $this->parse($abilities);
 
         foreach ($abilities as $role) {
-            $this->model->abilities()->attach($role);
+            $this->model->abilities()->attach($role, [
+                'forbidden' => $forbidden,
+            ]);
         }
 
         return $this->model;

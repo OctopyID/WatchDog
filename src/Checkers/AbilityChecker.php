@@ -77,23 +77,31 @@ class AbilityChecker
         $query = $this->entity->abilities()->where('name', $ability);
 
         if ($entity) {
+            // if the given model is a string, then we need to check the availability of capabilities.
+            $query->where(config('watchdog.tables.abilities') . '.entity_type', is_string($entity) ? $entity : get_class($entity));
+
+            // if entity_id is null, then the entity has wildcard ability.
+            if ($query->exists() && is_null($query->first()->entity_id)) {
+                return $query->first()->pivot->forbidden === 0; // if the ability is forbidden, return false.
+            }
+
             // if the given model is an object, then we will check the capabilities by including the record id that the role can handle.
             if ($entity instanceof Model) {
-                return $query
-                    ->where(config('watchdog.tables.abilities') . '.entity_type', get_class($entity))
-                    ->where(config('watchdog.tables.abilities') . '.entity_id', $entity->{$entity->getKeyName()})
-                    ->exists();
+                $query->where(config('watchdog.tables.abilities') . '.entity_id', $entity->{$entity->getKeyName()});
+
+                if ($query->exists()) {
+                    return $query->first()->pivot->forbidden === 0; // if the ability is forbidden, return false.
+                }
             }
 
-            // if the given model is a string, then we need to check the availability of capabilities.
-            $query->where(config('watchdog.tables.abilities') . '.entity_type', $entity);
-
-            if ($query->exists()) {
-                return is_null($query->first()->entity_id); // Then we check whether the capability is for the whole record or not .
-            }
+            return false;
         }
 
-        return $query->exists();
+        if ($query->exists()) {
+            return $query->first()->pivot->forbidden === 0; // if the ability is forbidden, return false.
+        }
+
+        return false;
     }
 
     /**

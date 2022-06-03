@@ -23,6 +23,6 @@ trait HasAbility
      */
     public function abilities() : MorphToMany
     {
-        return $this->morphToMany(config('watchdog.models.ability'), 'entity', config('watchdog.tables.permissions'), 'entity_id');
+        return $this->morphToMany(config('watchdog.models.ability'), 'entity', config('watchdog.tables.permissions'), 'entity_id')->withPivot('forbidden');
     }
 }

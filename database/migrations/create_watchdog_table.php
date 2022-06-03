@@ -32,6 +32,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ability_id')->constrained();
             $table->morphs('entity');
+            $table->boolean('forbidden')->default(false);
             $table->timestamps();
         });
 

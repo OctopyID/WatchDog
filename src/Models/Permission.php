@@ -10,7 +10,14 @@ class Permission extends Pivot
      * @var string[]
      */
     protected $fillable = [
-        'name', 'title', 'description',
+        'name', 'title', 'description', 'forbidden',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'forbidden' => 'boolean',
     ];
 
     /**

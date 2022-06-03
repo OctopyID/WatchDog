@@ -59,7 +59,7 @@ class WatchDogCacheTest extends TestCase
             'watchdog.cache.enabled' => true,
         ]);
 
-        $this->assertQueryCountMatches(1, function () use ($user) {
+        $this->assertQueryCountMatches(2, function () use ($user) {
             $this->assertTrue($user->ability->able('bar'));
         });
 
@@ -88,7 +88,7 @@ class WatchDogCacheTest extends TestCase
             'watchdog.cache.enabled' => true,
         ]);
 
-        $this->assertQueryCountMatches(1, function () use ($role) {
+        $this->assertQueryCountMatches(2, function () use ($role) {
             $this->assertTrue($role->ability->able('bar'));
         });
 
@@ -117,7 +117,7 @@ class WatchDogCacheTest extends TestCase
             'watchdog.cache.enabled' => true,
         ]);
 
-        $this->assertQueryCountMatches(1, function () use ($role) {
+        $this->assertQueryCountMatches(2, function () use ($role) {
             $this->assertTrue($role->ability->able('bar'));
         });
 
@@ -128,7 +128,7 @@ class WatchDogCacheTest extends TestCase
 
         $this->artisan('watchdog:flush');
 
-        $this->assertQueryCountMatches(1, function () use ($role) {
+        $this->assertQueryCountMatches(2, function () use ($role) {
             $this->assertTrue($role->ability->able('bar'));
         });
     }
