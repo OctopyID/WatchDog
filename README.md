@@ -170,7 +170,6 @@ $user->ability->able('delete', $post);
 $user->ability->able('delete', Post::class);
 ```
 
-```php
 ## Disclaimer
 
 All maintainers, contributors, and the package itself are not responsible for any damages, direct or indirect, that may occur as a result of using this package.
