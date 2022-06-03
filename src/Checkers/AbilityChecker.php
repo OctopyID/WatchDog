@@ -82,15 +82,14 @@ class AbilityChecker
 
             // if entity_id is null, then the entity has wildcard ability.
             if ($query->exists() && is_null($query->first()->entity_id)) {
-                return $query->first()->pivot->forbidden === 0; // if the ability is forbidden, return false.
+                return in_array($query->first()->pivot->forbidden, [0, '0']); // if the ability is forbidden, return false.
             }
-
             // if the given model is an object, then we will check the capabilities by including the record id that the role can handle.
             if ($entity instanceof Model) {
                 $query->where(config('watchdog.tables.abilities') . '.entity_id', $entity->{$entity->getKeyName()});
 
                 if ($query->exists()) {
-                    return $query->first()->pivot->forbidden === 0; // if the ability is forbidden, return false.
+                    return in_array($query->first()->pivot->forbidden, [0, '0']); // if the ability is forbidden, return false.
                 }
             }
 
@@ -98,7 +97,7 @@ class AbilityChecker
         }
 
         if ($query->exists()) {
-            return $query->first()->pivot->forbidden === 0; // if the ability is forbidden, return false.
+            return in_array($query->first()->pivot->forbidden, [0, '0']); // if the ability is forbidden, return false.
         }
 
         return false;
